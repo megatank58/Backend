@@ -16,8 +16,8 @@ func Router() *minima.Router {
 	return router
 }
 
-func Request(route string) []byte {
-	response, err := http.Get("https://api.github.com/" + route)
+func Request(route string, url string) []byte {
+	response, err := http.Get(url + route)
     if err != nil {
         panic(err)
     }
@@ -27,4 +27,12 @@ func Request(route string) []byte {
         panic(err)
     }
 	return responseData
+}
+
+func RequestGitHub(route string) []byte {
+	return Request(route, "https://api.github.com/")
+}
+
+func RequestRawGitHub(route string) []byte {
+	return Request(route, "https://raw.githubusercontent.com/Megatank58/")
 }

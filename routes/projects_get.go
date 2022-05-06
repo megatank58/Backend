@@ -5,5 +5,5 @@ import (
 )
 
 func ProjectsGet(res *minima.Response, req *minima.Request) {
-    res.OK().WriteBytes(Request("users/megatank58/repos"))
+    res.SetHeader("Access-Control-Allow-Origin", "*").OK().WriteBytes(RequestGitHub("users/megatank58/repos"))
 }
