@@ -1,10 +1,6 @@
 package routes
 
-import (
-	"io/ioutil"
-	"net/http"
-	"github.com/gominima/minima"
-)
+import "github.com/gominima/minima"
 
 func Router() *minima.Router {
 	router := minima.NewRouter()
@@ -13,26 +9,8 @@ func Router() *minima.Router {
 	router.Get("/blogs", BlogsGet)
 	router.Get("/projects/:project", ProjectGet)
 	router.Get("/blogs/:blog", BlogGet)
+	router.Get("/blogs/:blog/create/:content", BlogCreate)
+	router.Get("/blogs/:blog/set/:content", BlogSet)
+	router.Get("/blogs/:blog/delete", BlogDelete)
 	return router
-}
-
-func Request(route string, url string) []byte {
-	response, err := http.Get(url + route)
-    if err != nil {
-        panic(err)
-    }
-
-    responseData, err := ioutil.ReadAll(response.Body)
-    if err != nil {
-        panic(err)
-    }
-	return responseData
-}
-
-func RequestGitHub(route string) []byte {
-	return Request(route, "https://api.github.com/")
-}
-
-func RequestRawGitHub(route string) []byte {
-	return Request(route, "https://raw.githubusercontent.com/Megatank58/")
 }
