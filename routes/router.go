@@ -7,6 +7,7 @@ func Router() *minima.Router {
 	router.Get("/", Redirect)
 	router.Get("/projects", ProjectsGet)
 	router.Get("/blogs", BlogsGet)
+	router.Get("/auth/:code", AuthGet)
 	router.Get("/projects/:project", ProjectGet)
 	router.Get("/blogs/:blog", BlogGet)
 	router.Post("/blogs/:blog/create", BlogCreate)
