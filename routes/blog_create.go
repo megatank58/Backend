@@ -2,26 +2,27 @@ package routes
 
 import (
 	"encoding/json"
-	"io/ioutil"
 
-	"github.com/gominima/minima"
+	"github.com/gofiber/fiber/v2"
 	"github.com/megatank58/backend/utils/database"
 	"github.com/megatank58/backend/utils/request"
 )
 
-func BlogCreate(res *minima.Response, req *minima.Request) {
+func BlogCreate(ctx *fiber.Ctx) error {
 
-	isAuthenticated := request.CheckAuthentication(req.GetHeader("token"))
+	isAuthenticated := request.CheckAuthentication(ctx.GetReqHeaders()["token"])
 
 	if !isAuthenticated {
-		res.SetHeader("Access-Control-Allow-Origin", "*").Unauthorized().Send("Access token is invalid or not of the user")
-		return
+		return ctx.Status(401).SendString("Access token is invalid or not of the user")
 	}
+	
+	payload := database.Blog{}
 
-	data, _ := ioutil.ReadAll(req.Raw().Body)
-	obj := make(map[string]string)
-	_ = json.Unmarshal([]byte(data), &obj)
-	data, _ = json.Marshal(database.CreateBlog(req.Param("blog"), obj["content"]))
+    if err := ctx.BodyParser(&payload); err != nil {
+        return err
+    }
 
-	res.SetHeader("Access-Control-Allow-Origin", "*").OK().Send(string(data))
+	data, _ := json.Marshal(database.CreateBlog(ctx.Params("blog"), payload.Content))
+
+	return ctx.Status(200).Send(data)
 }

@@ -1,10 +1,10 @@
 package routes
 
 import (
-	"github.com/gominima/minima"
+	"github.com/gofiber/fiber/v2"
 	"github.com/megatank58/backend/utils/request"
 )
 
-func ProjectGet(res *minima.Response, req *minima.Request) {
-	res.SetHeader("Access-Control-Allow-Origin", "*").OK().WriteBytes(request.RawGitHub(req.Param("project") + "/main/README.md"))
+func ProjectGet(ctx *fiber.Ctx) error {
+	return ctx.Status(200).Send(request.RawGitHub(ctx.Params("project") + "/main/README.md"))
 }

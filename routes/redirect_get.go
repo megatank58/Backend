@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/gominima/minima"
+	"github.com/gofiber/fiber/v2"
 )
 
-func Redirect(res *minima.Response, req *minima.Request) {
-	res.Redirect("/projects")
+func Redirect(ctx *fiber.Ctx) error {
+	return ctx.Redirect("/projects")
 }

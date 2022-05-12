@@ -1,21 +1,20 @@
 package routes
 
 import (
-	"github.com/gominima/minima"
+	"github.com/gofiber/fiber/v2"
 	"github.com/megatank58/backend/utils/database"
 	"github.com/megatank58/backend/utils/request"
 )
 
-func BlogDelete(res *minima.Response, req *minima.Request) {
+func BlogDelete(ctx *fiber.Ctx) error {
 
-	isAuthenticated := request.CheckAuthentication(req.GetHeader("token"))
+	isAuthenticated := request.CheckAuthentication(ctx.GetReqHeaders()["token"])
 
 	if !isAuthenticated {
-		res.SetHeader("Access-Control-Allow-Origin", "*").Unauthorized().Send("Access token is invalid or not of the user")
-		return
+		return ctx.Status(401).SendString("Access token is invalid or not of the user")
 	}
-	
-	database.DeleteBlog(req.Param("blog"))
 
-	res.SetHeader("Access-Control-Allow-Origin", "*").OK().Send("OK")
+	database.DeleteBlog(ctx.Params("blog"))
+
+	return ctx.Status(200).SendString("OK")
 }

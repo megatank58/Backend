@@ -3,12 +3,12 @@ package routes
 import (
 	"encoding/json"
 
-	"github.com/gominima/minima"
+	"github.com/gofiber/fiber/v2"
 	"github.com/megatank58/backend/utils/database"
 )
 
-func BlogGet(res *minima.Response, req *minima.Request) {
-	data, _ := json.Marshal(database.GetBlog(req.Param("blog")))
+func BlogGet(ctx *fiber.Ctx) error {
+	data, _ := json.Marshal(database.GetBlog(ctx.Params("blog")))
 
-	res.SetHeader("Access-Control-Allow-Origin", "*").OK().Send(string(data))
+	return ctx.Status(200).Send(data)
 }
