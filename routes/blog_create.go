@@ -11,7 +11,7 @@ import (
 func BlogCreate(ctx *fiber.Ctx) error {
 	ctx.Response().Header.Add("Access-Control-Allow-Origin", "*")
 
-	isAuthenticated := request.CheckAuthentication(ctx.GetReqHeaders()["token"])
+	isAuthenticated := request.CheckAuthentication(ctx.GetReqHeaders()["Authorization"])
 
 	if !isAuthenticated {
 		return ctx.Status(401).SendString("Access token is invalid or not of the user")
