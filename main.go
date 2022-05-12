@@ -30,7 +30,9 @@ func main() {
 		TimeZone:   "America/New_York",
 	}))
 
-	app.Use(cors.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+	}))
 
 	app.Listen(":8080")
 }

@@ -9,6 +9,7 @@ import (
 )
 
 func BlogCreate(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Add("Access-Control-Allow-Origin", "*")
 
 	isAuthenticated := request.CheckAuthentication(ctx.GetReqHeaders()["token"])
 

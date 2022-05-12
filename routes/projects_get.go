@@ -6,5 +6,7 @@ import (
 )
 
 func ProjectsGet(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Add("Access-Control-Allow-Origin", "*")
+
 	return ctx.Status(200).Send(request.GitHub("users/megatank58/repos"))
 }
